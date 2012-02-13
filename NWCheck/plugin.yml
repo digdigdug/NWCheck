@@ -1,0 +1,23 @@
+name: NWCheck
+main: me.milkduds.digdigdug.NWCheck.NWCheck
+description: Handy, simple, block based compass
+version: "0.9.87"
+author: digdigdug
+
+permissions:
+  NWCheck.check:
+    description: When enabled sneaking toggles a block placed @ your feet to the NW.
+    default: op
+  NWCheck.block:
+    description: Allows changing of indicator block
+    default: op
+  NWCheck.direction:
+    description: Allows changing of indicator direction
+    default: op
+    
+commands:
+  check:
+    description: Toggles NWCheck on and off
+    usage: /<command> [block or direction] [which block or direction]
+    aliases: [ck]
+     
