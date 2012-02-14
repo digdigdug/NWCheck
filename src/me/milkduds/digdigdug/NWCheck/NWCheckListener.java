@@ -1,9 +1,11 @@
 package me.milkduds.digdigdug.NWCheck;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +24,10 @@ public class NWCheckListener implements Listener{
 	public void inPlayerMove(PlayerToggleSneakEvent event){
 		Player player = event.getPlayer();
 		
+		FileConfiguration config = plugin.getConfig();
+		String block = config.getString("block");
+		String direction = config.getString("direction");
+		
 		if(!player.hasPermission("NWCheck.check")){
 			return;
 		}
@@ -35,11 +41,12 @@ public class NWCheckListener implements Listener{
 		}
 		
 		Block blockCenter = (player.getLocation().getBlock().getRelative(BlockFace.DOWN));
-		Block nwBlock = blockCenter.getRelative(BlockFace.NORTH_WEST);
+		Block nwBlock = blockCenter.getRelative(BlockFace.valueOf(direction));
 		
 		if(toggle == 0){
 			storeBlockState(nwBlock.getState());
-			nwBlock.setType(Material.GOLD_BLOCK);
+			nwBlock.setType(Material.valueOf(block));
+			player.sendMessage(ChatColor.AQUA + "[NWCheck] Has indicated " + direction);
 			toggle = 1;
 		}else if(toggle == 1){
 			BlockState oldState = getOldBlockState();
@@ -58,5 +65,4 @@ public class NWCheckListener implements Listener{
 	private void storeBlockState(BlockState state) {
 		temp = state;
 	}
-
 }
